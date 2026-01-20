@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maximilian Vogler | Tenor</title>
+    <meta name="description" content="Official website of Maximilian Vogler, acclaimed German tenor. View upcoming performances, biography, recordings, and contact information.">
+
+```
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    :root {
+        --black: #000000;
+        --dark-gray: #0F0F0F;
+        --zinc-900: #18181B;
+        --zinc-800: #27272A;
+        --white: #FFFFFF;
+        --gray-300: #D1D5DB;
+        --gray-400: #9CA3AF;
+        --gray-500: #6B7280;
+        --amber-400: #F59E0B;
+        --amber-500: #D97706;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+        background: var(--black);
+        color: var(--white);
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+
+    /* Typography */
+    h1, h2, h3 {
+        font-family: Georgia, 'Times New Roman', serif;
+        font-weight: 300;
+        letter-spacing: 0.02em;
+    }
+
+    h1 { font-size: clamp(3rem, 8vw, 5rem); }
+    h2 { font-size: clamp(2rem, 5vw, 3rem); }
+    h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
+
+    /* Navigation */
+    nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        padding: 1.5rem 2rem;
+        transition: all 0.3s ease;
+    }
+
+    nav.scrolled {
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 1rem 2rem;
+    }
+
+    .nav-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo {
+        display: flex;
+        flex-direction: column;
+        text-decoration: none;
+        color: var(--white);
+        transition: opacity 0.3s;
+    }
+
+    .logo:hover { opacity: 0.8; }
+
+    .logo-name {
+        font-size: 1.5rem;
+        font-weight: 300;
+        letter-spacing: 0.05em;
+    }
+
+    .logo-subtitle {
+        font-size: 0.75rem;
+        color: var(--amber-400);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+    }
+
+    .nav-menu {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+        align-items: center;
+    }
+
+    .nav-menu a {
+        color: var(--white);
+        text-decoration: none;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        transition: color 0.3s;
+    }
+
+    .nav-menu a:hover {
+        color: var(--amber-400);
+    }
+
+    .lang-toggle {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+    }
+
+    .mobile-menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--white);
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+
+    /* Hero */
+    .hero {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5), rgba(0,0,0,1)),
+                    url('https://images.unsplash.com/photo-1465847899943-a2abce6abbb0?w=1600') center/cover;
+    }
+
+    .hero-content {
+        animation: fadeIn 1.2s ease-out;
+    }
+
+    .hero-subtitle {
+        color: var(--amber-400);
+        font-size: clamp(1.125rem, 2vw, 1.5rem);
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        margin-top: 1rem;
+    }
+
+    .scroll-indicator {
+        position: absolute;
+        bottom: 2.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        color: var(--amber-400);
+        font-size: 2rem;
+        animation: bounce 2s infinite;
+        cursor: pointer;
+    }
+
+    /* Sections */
+    section {
+        padding: 7.5rem 2rem;
+    }
+
+    .section-dark { background: var(--dark-gray); }
+    .section-black { background: var(--black); }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .section-title {
+        margin-bottom: 3.5rem;
+    }
+
+    /* Bio */
+    .bio-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: start;
+    }
+
+    .bio-text p {
+        color: var(--gray-300);
+        font-size: 1.125rem;
+        line-height: 1.7;
+        margin-bottom: 1.5rem;
+    }
+
+    .bio-image {
+        aspect-ratio: 3/4;
+        background: linear-gradient(to bottom right, #27272A, #18181B);
+        border-radius: 2px;
+        overflow: hidden;
+    }
+
+    .bio-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.9;
+        transition: opacity 0.3s;
+    }
+
+    .bio-image img:hover { opacity: 1; }
+
+    /* Press */
+    .press-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+
+    .review-card {
+        background: var(--dark-gray);
+        border: 1px solid var(--zinc-800);
+        border-radius: 2px;
+        padding: 3rem 2.5rem;
+        transition: border-color 0.3s;
+    }
+
+    .review-card:hover {
+        border-color: var(--zinc-800);
+    }
+
+    .quote-icon {
+        font-size: 2.5rem;
+        color: #52525B;
+        margin-bottom: 1.5rem;
+    }
+
+    .review-text {
+        color: var(--gray-300);
+        font-style: italic;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    .review-author {
+        font-size: 0.875rem;
+        color: var(--gray-400);
+        font-weight: 600;
+    }
+
+    .review-publication {
+        font-size: 0.875rem;
+        color: var(--gray-500);
+        margin-top: 0.25rem;
+    }
+
+    /* Repertoire */
+    .repertoire-box {
+        background: var(--black);
+        border: 1px solid var(--zinc-800);
+        border-radius: 2px;
+        padding: 5rem 4rem;
+        text-align: center;
+        transition: border-color 0.3s;
+    }
+
+    .repertoire-box:hover {
+        border-color: rgba(245, 158, 11, 0.5);
+    }
+
+    .repertoire-link {
+        color: var(--white);
+        text-decoration: none;
+        font-size: 1.5rem;
+        font-weight: 300;
+        display: inline-flex;
+        align-items: center;
+        gap: 1rem;
+        transition: color 0.3s;
+    }
+
+    .repertoire-link:hover {
+        color: var(--amber-400);
+    }
+
+    .arrow {
+        color: var(--amber-400);
+    }
+
+    /* Events */
+    .event-card {
+        background: var(--dark-gray);
+        border: 1px solid var(--zinc-800);
+        border-radius: 2px;
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+        transition: border-color 0.3s;
+    }
+
+    .event-card:hover {
+        border-color: #3F3F46;
+    }
+
+    .event-header {
+        background: var(--zinc-900);
+        border-bottom: 1px solid var(--zinc-800);
+        padding: 1.5rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .event-datetime {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .event-date {
+        color: var(--amber-400);
+        font-weight: 600;
+    }
+
+    .event-time {
+        color: var(--gray-400);
+    }
+
+    .event-link {
+        background: var(--amber-400);
+        color: var(--black);
+        padding: 0.75rem 1.5rem;
+        border-radius: 2px;
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: background 0.3s;
+    }
+
+    .event-link:hover {
+        background: var(--amber-500);
+    }
+
+    .event-body {
+        padding: 2rem;
+    }
+
+    .event-title {
+        font-size: 1.75rem;
+        font-weight: 300;
+        margin-bottom: 1rem;
+    }
+
+    .event-location {
+        display: flex;
+        align-items: start;
+        gap: 0.5rem;
+        color: var(--gray-400);
+        margin-bottom: 1.5rem;
+    }
+
+    .event-section {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid var(--zinc-800);
+    }
+
+    .event-section:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .event-label {
+        font-size: 0.75rem;
+        color: var(--gray-500);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 0.5rem;
+    }
+
+    .event-role {
+        color: var(--amber-400);
+        font-weight: 600;
+    }
+
+    .event-cast {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 0.5rem;
+        color: var(--gray-400);
+        font-size: 0.875rem;
+    }
+
+    .event-ensemble {
+        color: var(--gray-500);
+        font-size: 0.875rem;
+        line-height: 1.6;
+    }
+
+    /* Media */
+    .featured-recording {
+        background: var(--black);
+        border: 1px solid var(--zinc-800);
+        border-radius: 2px;
+        padding: 4rem 5rem;
+        margin-bottom: 4rem;
+    }
+
+    .recording-header {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .recording-icon {
+        color: var(--amber-400);
+        font-size: 2.5rem;
+    }
+
+    .recording-title {
+        font-size: 1.75rem;
+        font-weight: 300;
+    }
+
+    .recording-subtitle {
+        color: var(--gray-400);
+        margin-top: 0.5rem;
+    }
+
+    .recording-details {
+        color: var(--gray-500);
+        font-size: 0.8125rem;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+    }
+
+    .streaming-links {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .streaming-btn {
+        background: var(--zinc-900);
+        color: var(--white);
+        padding: 0.75rem 1.5rem;
+        border-radius: 2px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: background 0.3s;
+    }
+
+    .streaming-btn:hover {
+        background: var(--zinc-800);
+    }
+
+    .gallery {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+
+    .gallery-item {
+        aspect-ratio: 1;
+        background: var(--zinc-900);
+        border-radius: 2px;
+        overflow: hidden;
+    }
+
+    .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+    }
+
+    .gallery-item:hover img {
+        transform: scale(1.1);
+    }
+
+    /* Contact */
+    .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5rem;
+    }
+
+    .contact-info h3 {
+        font-size: 1.75rem;
+        font-weight: 300;
+        margin-bottom: 1.5rem;
+    }
+
+    .contact-info p {
+        color: var(--gray-400);
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+
+    .contact-email {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: var(--gray-300);
+        text-decoration: none;
+        margin-bottom: 2.5rem;
+        transition: color 0.3s;
+    }
+
+    .contact-email:hover {
+        color: var(--white);
+    }
+
+    .agency-info {
+        margin-bottom: 2.5rem;
+    }
+
+    .agency-label {
+        font-size: 0.75rem;
+        color: var(--gray-500);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 0.5rem;
+    }
+
+    .agency-name {
+        color: var(--gray-300);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .agency-email {
+        color: var(--gray-400);
+        text-decoration: none;
+        font-size: 0.875rem;
+    }
+
+    .agency-email:hover {
+        color: var(--gray-300);
+    }
+
+    .social-links {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .social-link {
+        width: 48px;
+        height: 48px;
+        background: var(--dark-gray);
+        border-radius: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        text-decoration: none;
+        transition: background 0.3s;
+    }
+
+    .social-link:hover {
+        background: var(--zinc-800);
+    }
+
+    /* Contact Form */
+    .contact-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .form-input,
+    .form-textarea {
+        width: 100%;
+        padding: 1rem;
+        background: var(--dark-gray);
+        border: 1px solid var(--zinc-800);
+        border-radius: 2px;
+        color: var(--white);
+        font-family: inherit;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+        outline: none;
+        border-color: var(--gray-500);
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+        color: var(--gray-500);
+    }
+
+    .form-textarea {
+        resize: vertical;
+        min-height: 150px;
+    }
+
+    .form-submit {
+        width: 100%;
+        padding: 1rem 2rem;
+        background: var(--amber-400);
+        color: var(--black);
+        border: none;
+        border-radius: 2px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .form-submit:hover {
+        background: var(--amber-500);
+    }
+
+    /* Footer */
+    footer {
+        background: var(--dark-gray);
+        border-top: 1px solid var(--zinc-900);
+        padding: 2rem;
+        text-align: center;
+        color: var(--gray-500);
+        font-size: 0.875rem;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translateX(-50%) translateY(0);
+        }
+        40% {
+            transform: translateX(-50%) translateY(-10px);
+        }
+        60% {
+            transform: translateX(-50%) translateY(-5px);
+        }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        nav { padding: 1rem; }
+        
+        .nav-menu {
+            display: none;
+        }
+
+        .nav-menu.active {
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.98);
+            padding: 2rem;
+            gap: 1.5rem;
+        }
+
+        .mobile-menu-btn {
+            display: block;
+        }
+
+        section {
+            padding: 4rem 1.5rem;
+        }
+
+        .bio-grid,
+        .press-grid,
+        .contact-grid,
+        .gallery {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .event-header {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .event-link {
+            text-align: center;
+            justify-content: center;
+        }
+
+        .featured-recording {
+            padding: 2rem 1.5rem;
+        }
+
+        .recording-header {
+            flex-direction: column;
+            align-items: start;
+        }
+
+        .gallery {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    /* Language Toggle */
+    .hidden { display: none !important; }
+</style>
+```
+
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="nav">
+        <div class="nav-container">
+            <a href="#home" class="logo">
+                <span class="logo-name">maximilian vogler</span>
+                <span class="logo-subtitle">TENOR</span>
+            </a>
+
+```
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="#home" data-en="HOME" data-de="START">HOME</a></li>
+            <li><a href="#bio" data-en="BIO" data-de="BIOGRAFIE">BIO</a></li>
+            <li><a href="#repertoire" data-en="REPERTOIRE" data-de="REPERTOIRE">REPERTOIRE</a></li>
+            <li><a href="#dates" data-en="DATES" data-de="TERMINE">DATES</a></li>
+            <li><a href="#media" data-en="MEDIA" data-de="MEDIEN">MEDIA</a></li>
+            <li><a href="#contact" data-en="CONTACT" data-de="KONTAKT">CONTACT</a></li>
+            <li>
+                <span class="lang-toggle" onclick="toggleLanguage()">
+                    🌐 <span id="langText">DE</span>
+                </span>
+            </li>
+        </ul>
+
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section id="home" class="hero">
+    <div class="hero-content">
+        <h1>Maximilian Vogler</h1>
+        <p class="hero-subtitle">TENOR</p>
+    </div>
+    <div class="scroll-indicator" onclick="document.getElementById('bio').scrollIntoView({behavior: 'smooth'})">
+        ↓
+    </div>
+</section>
+
+<!-- Bio Section -->
+<section id="bio" class="section-dark">
+    <div class="container">
+        <h2 class="section-title" data-en="Biography" data-de="Biografie">Biography</h2>
+        <div class="bio-grid">
+            <div class="bio-text">
+                <p class="bio-p1" data-en="Maximilian Vogler is an acclaimed German tenor recognized for his exceptional artistry in both opera and concert repertoire. His performances are characterized by a unique combination of technical precision and deeply expressive interpretation." data-de="Maximilian Vogler ist ein anerkannter deutscher Tenor, der für seine außergewöhnliche Kunstfertigkeit sowohl im Opern- als auch im Konzertrepertoire bekannt ist. Seine Auftritte zeichnen sich durch eine einzigartige Kombination aus technischer Präzision und tief ausdrucksvoller Interpretation aus.">
+                    Maximilian Vogler is an acclaimed German tenor recognized for his exceptional artistry in both opera and concert repertoire. His performances are characterized by a unique combination of technical precision and deeply expressive interpretation.
+                </p>
+                <p class="bio-p2" data-en="Specializing in baroque and classical works, Vogler has established himself as a sought-after interpreter of J.S. Bach's sacred music, particularly the passions and cantatas. His "balsamically sensitive tenor" has been praised by critics across Europe." data-de="Spezialisiert auf barocke und klassische Werke, hat sich Vogler als gefragter Interpret der geistlichen Musik von J.S. Bach etabliert, insbesondere der Passionen und Kantaten. Sein &quot;balsamisch-sensitiver Tenor&quot; wurde von Kritikern in ganz Europa gelobt.">
+                    Specializing in baroque and classical works, Vogler has established himself as a sought-after interpreter of J.S. Bach's sacred music, particularly the passions and cantatas. His "balsamically sensitive tenor" has been praised by critics across Europe.
+                </p>
+                <p class="bio-p3" data-en="He regularly collaborates with renowned orchestras and ensembles including the Deutsche Kammerphilharmonie Bremen, B'Rock Orchestra, and Kammerchor Stuttgart, performing at prestigious venues throughout Europe." data-de="Er arbeitet regelmäßig mit renommierten Orchestern und Ensembles zusammen, darunter die Deutsche Kammerphilharmonie Bremen, das B'Rock Orchestra und der Kammerchor Stuttgart, und tritt an prestigeträchtigen Veranstaltungsorten in ganz Europa auf.">
+                    He regularly collaborates with renowned orchestras and ensembles including the Deutsche Kammerphilharmonie Bremen, B'Rock Orchestra, and Kammerchor Stuttgart, performing at prestigious venues throughout Europe.
+                </p>
+            </div>
+            <div class="bio-image">
+                <img src="https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=800" alt="Maximilian Vogler">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Press Section -->
+<section id="press" class="section-black">
+    <div class="container">
+        <h2 class="section-title" data-en="Press" data-de="Presse">Press</h2>
+        <div class="press-grid">
+            <div class="review-card">
+                <div class="quote-icon">"</div>
+                <p class="review-text">The tenor succeeds in a cleanly executed parlando style with clear phrasing that blends into the orchestra.</p>
+                <div class="review-author">Patrick Erb</div>
+                <div class="review-publication">Concerti</div>
+            </div>
+            <div class="review-card">
+                <div class="quote-icon">"</div>
+                <p class="review-text">Above all Maximilian Vogler, who shapes every note and every syllable into a fiery sound experience. He is a quick-tempered Achilles and a passionate lover.</p>
+                <div class="review-author">Frank Dietschreit</div>
+                <div class="review-publication">Radio Berlin Brandenburg Kultur</div>
+            </div>
+            <div class="review-card">
+                <div class="quote-icon">"</div>
+                <p class="review-text">This demands a lot from a tenor like the magnificent Maximilian Vogler, who is as luminous as he is stylistically confident.</p>
+                <div class="review-author">Klaus Kalchschmid</div>
+                <div class="review-publication">Süddeutsche Zeitung</div>
+            </div>
+            <div class="review-card">
+                <div class="quote-icon">"</div>
+                <p class="review-text">The direction leaves the singers enough space for exquisite discoveries such as Maximilian Vogler's balsamically sensitive tenor.</p>
+                <div class="review-author">Albrecht Selge</div>
+                <div class="review-publication">Frankfurter Allgemeine</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Repertoire Section -->
+<section id="repertoire" class="section-dark">
+    <div class="container">
+        <h2 class="section-title" data-en="Repertoire" data-de="Repertoire">Repertoire</h2>
+        <div class="repertoire-box">
+            <a href="https://www.maximilianvogler.com/repertoire" target="_blank" class="repertoire-link">
+                <span data-en="View Full Repertoire" data-de="Vollständiges Repertoire ansehen">View Full Repertoire</span>
+                <span class="arrow">→</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Events Section -->
+<section id="dates" class="section-black">
+    <div class="container">
+        <h2 class="section-title" data-en="Upcoming Performances" data-de="Kommende Auftritte">Upcoming Performances</h2>
+        
+        <!-- Event 1 -->
+        <div class="event-card">
+            <div class="event-header">
+                <div class="event-datetime">
+                    <span>📅</span>
+                    <span class="event-date">28.3.26</span>
+                    <span>•</span>
+                    <span class="event-time">18:30</span>
+                </div>
+                <a href="https://www.schouwburglochem.nl/voorstelling/matthaus-passion-2026/" target="_blank" class="event-link">
+                    <span data-en="More Info" data-de="Mehr Infos">More Info</span>
+                    <span>→</span>
+                </a>
+            </div>
+            <div class="event-body">
+                <h3 class="event-title">J.S. Bach - Matthäus-Passion BWV 244</h3>
+                <div class="event-location">
+                    <span>📍</span>
+                    <span>Schouwburg Lochem, Netherlands</span>
+                </div>
+                <div class="event-section">
+                    <div class="event-label" data-en="ROLE" data-de="ROLLE">ROLE</div>
+                    <div class="event-role">Tenor</div>
+                </div>
+                <div class="event-section">
+                    <div class="event-label" data-en="CAST & ENSEMBLE" data-de="BESETZUNG & ENSEMBLE">CAST & ENSEMBLE</div>
+                    <div class="event-cast">
+                        <div>EDWARD ROSS Evangelist</div>
+                        <div>NIKLAUS KOST Christus</div>
+                        <div>BOBBIE BLOMMESTEIJN Soprano</div>
+                        <div>YONGBEOM KWON Countertenor</div>
+                        <div>MAXIMILIAN VOGLER Tenor</div>
+                        <div>HALVOR MELIEN Bass</div>
+                    </div>
+                    <div class="event-ensemble" style="margin-top: 1rem;">
+                        BACHKOOR HOLLAND<br>
+                        B'ROCK ORCHESTRA<br>
+                        GIJS LEENAARS Conductor
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event 2 -->
+        <div class="event-card">
+            <div class="event-header">
+                <div class="event-datetime">
+                    <span>📅</span>
+                    <span class="event-date">3.4.26</span>
+                    <span>•</span>
+                    <span
+```
