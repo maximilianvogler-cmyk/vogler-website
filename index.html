@@ -1,354 +1,461 @@
-import React, { useState, useEffect } from ‘react’;
-import { Calendar, Mail, Instagram, Youtube, Music, ChevronDown, Menu, X, MapPin, ExternalLink, Quote, Globe } from ‘lucide-react’;
+import React, { useState, useEffect } from 'react';
+import { Calendar, Mail, Instagram, Youtube, Music, ChevronDown, Menu, X, MapPin, Quote } from 'lucide-react';
 
 const MaximilianVoglerWebsite = () => {
-const [isMenuOpen, setIsMenuOpen] = useState(false);
-const [isScrolled, setIsScrolled] = useState(false);
-const [contactForm, setContactForm] = useState({ name: ‘’, email: ‘’, message: ‘’ });
-const [language, setLanguage] = useState(‘en’);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
 
-// Translations
-const t = language === ‘en’ ? {
-nav: [‘Home’, ‘Bio’, ‘Repertoire’, ‘Dates’, ‘Media’, ‘Contact’],
-hero: ‘Tenor’,
-bioTitle: ‘Biography’,
-bio: [
-‘Maximilian Vogler is an acclaimed German tenor recognized for his exceptional artistry in both opera and concert repertoire. His performances are characterized by a unique combination of technical precision and deeply expressive interpretation.’,
-‘Specializing in baroque and classical works, Vogler has established himself as a sought-after interpreter of J.S. Bach's sacred music, particularly the passions and cantatas. His “balsamically sensitive tenor” has been praised by critics across Europe.’,
-‘He regularly collaborates with renowned orchestras and ensembles including the Deutsche Kammerphilharmonie Bremen, B'Rock Orchestra, and Kammerchor Stuttgart, performing at prestigious venues throughout Europe.’
-],
-pressTitle: ‘Press’,
-repTitle: ‘Repertoire’,
-repLink: ‘View Full Repertoire’,
-datesTitle: ‘Upcoming Performances’,
-role: ‘Role’,
-cast: ‘Cast & Ensemble’,
-moreInfo: ‘More Info’,
-noEvents: ‘No upcoming events scheduled. Check back soon!’,
-mediaTitle: ‘Recordings’,
-newRec: ‘New Recording’,
-contactTitle: ‘Contact’,
-contactSub: ‘Get in Touch’,
-contactText: ‘For booking inquiries, collaboration opportunities, or general questions, please reach out via email.’,
-namePh: ‘Name’,
-emailPh: ‘Email’,
-msgPh: ‘Message’,
-sendBtn: ‘Send Message’,
-rights: ‘All rights reserved.’
-} : {
-nav: [‘Start’, ‘Biografie’, ‘Repertoire’, ‘Termine’, ‘Medien’, ‘Kontakt’],
-hero: ‘Tenor’,
-bioTitle: ‘Biografie’,
-bio: [
-‘Maximilian Vogler ist ein anerkannter deutscher Tenor, der für seine außergewöhnliche Kunstfertigkeit sowohl im Opern- als auch im Konzertrepertoire bekannt ist. Seine Auftritte zeichnen sich durch eine einzigartige Kombination aus technischer Präzision und tief ausdrucksvoller Interpretation aus.’,
-‘Spezialisiert auf barocke und klassische Werke, hat sich Vogler als gefragter Interpret der geistlichen Musik von J.S. Bach etabliert, insbesondere der Passionen und Kantaten. Sein “balsamisch-sensitiver Tenor” wurde von Kritikern in ganz Europa gelobt.’,
-‘Er arbeitet regelmäßig mit renommierten Orchestern und Ensembles zusammen, darunter die Deutsche Kammerphilharmonie Bremen, das B'Rock Orchestra und der Kammerchor Stuttgart, und tritt an prestigeträchtigen Veranstaltungsorten in ganz Europa auf.’
-],
-pressTitle: ‘Presse’,
-repTitle: ‘Repertoire’,
-repLink: ‘Vollständiges Repertoire ansehen’,
-datesTitle: ‘Kommende Auftritte’,
-role: ‘Rolle’,
-cast: ‘Besetzung & Ensemble’,
-moreInfo: ‘Mehr Infos’,
-noEvents: ‘Keine anstehenden Veranstaltungen. Schauen Sie bald wieder vorbei!’,
-mediaTitle: ‘Aufnahmen’,
-newRec: ‘Neue Aufnahme’,
-contactTitle: ‘Kontakt’,
-contactSub: ‘Kontaktaufnahme’,
-contactText: ‘Für Buchungsanfragen, Kooperationsmöglichkeiten oder allgemeine Fragen wenden Sie sich bitte per E-Mail an mich.’,
-namePh: ‘Name’,
-emailPh: ‘E-Mail’,
-msgPh: ‘Nachricht’,
-sendBtn: ‘Nachricht senden’,
-rights: ‘Alle Rechte vorbehalten.’
-};
+  // EASY CALENDAR EDITING - Add your performances here!
+  const [events] = useState([
+    {
+      date: '2026-03-28',
+      title: 'J.S. Bach - Matthäus-Passion BWV 244',
+      location: 'Schouwburg Lochem, Netherlands',
+      time: '18:30',
+      role: 'Tenor',
+      details: 'EDWARD ROSS Evangelist, NIKLAUS KOST Christus, BOBBIE BLOMMESTEIJN Soprano, YONGBEOM KWON Countertenor, MAXIMILIAN VOGLER Tenor, HALVOR MELIEN Bass, BACHKOOR HOLLAND, B\'ROCK ORCHESTRA, GIJS LEENAARS Conductor',
+      ticketLink: 'https://www.schouwburglochem.nl/voorstelling/matthaus-passion-2026/'
+    },
+    {
+      date: '2026-04-03',
+      title: 'J.S. Bach - Matthäus-Passion (Mendelssohn-Fassung)',
+      location: 'Stiftskirche Stuttgart, Germany',
+      time: '17:00',
+      role: 'Tenor',
+      details: 'NATALIE BECK Soprano, HENRIETTE GÖDDE Alto, MAXIMILIAN VOGLER Tenor, ERIC ANDER Bass, JOHANNES MARIA WIMMER Bass, Stuttgarter Kantorei, Stiftsphilharmonie Stuttgart, KAY JOHANNSEN Conductor',
+      ticketLink: 'https://mendelssohn.stiftsmusik-stuttgart.de/produktionen/matthaeuspassion-bwv-244.html?ID_Vorstellung=1429&m=553'
+    }
+  ]);
 
-const events = [
-{
-date: ‘2026-03-28’,
-title: ‘J.S. Bach - Matthäus-Passion BWV 244’,
-location: ‘Schouwburg Lochem, Netherlands’,
-time: ‘18:30’,
-role: ‘Tenor’,
-cast: [‘EDWARD ROSS Evangelist’, ‘NIKLAUS KOST Christus’, ‘BOBBIE BLOMMESTEIJN Soprano’, ‘YONGBEOM KWON Countertenor’, ‘MAXIMILIAN VOGLER Tenor’, ‘HALVOR MELIEN Bass’],
-ensemble: [‘BACHKOOR HOLLAND’, ‘B'ROCK ORCHESTRA’, ‘GIJS LEENAARS Conductor’],
-link: ‘https://www.schouwburglochem.nl/voorstelling/matthaus-passion-2026/’
-},
-{
-date: ‘2026-04-03’,
-title: ‘J.S. Bach - Matthäus-Passion (Mendelssohn-Fassung)’,
-location: ‘Stiftskirche Stuttgart, Germany’,
-time: ‘17:00’,
-role: ‘Tenor’,
-cast: [‘NATALIE BECK Soprano’, ‘HENRIETTE GÖDDE Alto’, ‘MAXIMILIAN VOGLER Tenor’, ‘ERIC ANDER Bass’, ‘JOHANNES MARIA WIMMER Bass’],
-ensemble: [‘Stuttgarter Kantorei’, ‘Stiftsphilharmonie Stuttgart’, ‘KAY JOHANNSEN Conductor’],
-link: ‘https://mendelssohn.stiftsmusik-stuttgart.de/produktionen/matthaeuspassion-bwv-244.html?ID_Vorstellung=1429&m=553’
-}
-];
+  const reviews = [
+    {
+      text: "The tenor succeeds in a cleanly executed parlando style with clear phrasing that blends into the orchestra.",
+      author: "Patrick Erb",
+      publication: "Concerti"
+    },
+    {
+      text: "Above all Maximilian Vogler, who shapes every note and every syllable into a fiery sound experience. He is a quick-tempered Achilles and a passionate lover.",
+      author: "Frank Dietschreit",
+      publication: "Radio Berlin Brandenburg Kultur"
+    },
+    {
+      text: "This demands a lot from a tenor like the magnificent Maximilian Vogler, who is as luminous as he is stylistically confident.",
+      author: "Klaus Kalchschmid",
+      publication: "Süddeutsche Zeitung"
+    },
+    {
+      text: "The direction leaves the singers enough space for exquisite discoveries such as Maximilian Vogler's balsamically sensitive tenor.",
+      author: "Albrecht Selge",
+      publication: "Frankfurter Allgemeine"
+    }
+  ];
 
-const reviews = [
-{ text: “The tenor succeeds in a cleanly executed parlando style with clear phrasing that blends into the orchestra.”, author: “Patrick Erb”, pub: “Concerti” },
-{ text: “Above all Maximilian Vogler, who shapes every note and every syllable into a fiery sound experience. He is a quick-tempered Achilles and a passionate lover.”, author: “Frank Dietschreit”, pub: “Radio Berlin Brandenburg Kultur” },
-{ text: “This demands a lot from a tenor like the magnificent Maximilian Vogler, who is as luminous as he is stylistically confident.”, author: “Klaus Kalchschmid”, pub: “Süddeutsche Zeitung” },
-{ text: “The direction leaves the singers enough space for exquisite discoveries such as Maximilian Vogler’s balsamically sensitive tenor.”, author: “Albrecht Selge”, pub: “Frankfurter Allgemeine” }
-];
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-useEffect(() => {
-const handleScroll = () => setIsScrolled(window.scrollY > 50);
-window.addEventListener(‘scroll’, handleScroll);
-return () => window.removeEventListener(‘scroll’, handleScroll);
-}, []);
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setIsMenuOpen(false);
+    }
+  };
 
-const scrollTo = (id) => {
-document.getElementById(id)?.scrollIntoView({ behavior: ‘smooth’ });
-setIsMenuOpen(false);
-};
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear().toString().slice(-2);
+    return `${day}.${month}.${year}`;
+  };
 
-const formatDate = (d) => {
-const date = new Date(d);
-return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear().toString().slice(-2)}`;
-};
+  const upcomingEvents = events
+    .filter(event => new Date(event.date) >= new Date())
+    .sort((a, b) => new Date(a.date) - new Date(b.date));
 
-const upcomingEvents = events.filter(e => new Date(e.date) >= new Date()).sort((a, b) => new Date(a.date) - new Date(b.date));
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    window.location.href = `mailto:maximilian.vogler@gmail.com?subject=Website Contact from ${contactForm.name}&body=${contactForm.message}`;
+    setContactForm({ name: '', email: '', message: '' });
+  };
 
-return (
-<div className="bg-black text-white min-h-screen">
-{/* Navigation */}
-<nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-black/95 backdrop-blur-sm py-3' : 'bg-transparent py-5'}`}>
-<div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
-<button onClick={() => scrollTo(‘home’)} className=“flex flex-col items-start leading-tight hover:opacity-80 transition-opacity”>
-<span className="text-xl sm:text-2xl font-light tracking-wide">maximilian vogler</span>
-<span className="text-xs sm:text-sm text-amber-400 tracking-widest">TENOR</span>
-</button>
+  return (
+    <div className="bg-black text-white min-h-screen">
+      {/* Navigation */}
+      <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-black/95 backdrop-blur-sm py-3' : 'bg-transparent py-5'}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
+          <button onClick={() => scrollToSection('home')} className="flex flex-col items-start leading-tight hover:opacity-80 transition-opacity">
+            <span className="text-xl sm:text-2xl font-light tracking-wide">maximilian vogler</span>
+            <span className="text-xs sm:text-sm text-amber-400 tracking-widest">TENOR</span>
+          </button>
 
-```
-      <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
-        {t.nav.map((item, i) => (
-          <button key={i} onClick={() => scrollTo(['home','bio','repertoire','dates','media','contact'][i])} className="text-sm uppercase tracking-wider hover:text-amber-400 transition-colors">{item}</button>
-        ))}
-        <button onClick={() => setLanguage(language === 'en' ? 'de' : 'en')} className="flex items-center gap-2 text-sm uppercase tracking-wider hover:text-amber-400 transition-colors">
-          <Globe size={16} />{language === 'en' ? 'DE' : 'EN'}
-        </button>
-      </div>
+          {/* Desktop Menu */}
+          <div className="hidden md:flex space-x-6 lg:space-x-8">
+            {['Home', 'Bio', 'Repertoire', 'Dates', 'Media', 'Contact'].map(item => (
+              <button
+                key={item}
+                onClick={() => scrollToSection(item.toLowerCase())}
+                className="text-sm uppercase tracking-wider hover:text-amber-400 transition-colors"
+              >
+                {item}
+              </button>
+            ))}
+          </div>
 
-      <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden p-2">
-        {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-      </button>
-    </div>
-
-    {isMenuOpen && (
-      <div className="md:hidden bg-black/98 backdrop-blur-sm border-t border-gray-800">
-        <div className="px-4 py-6 space-y-4">
-          {t.nav.map((item, i) => (
-            <button key={i} onClick={() => scrollTo(['home','bio','repertoire','dates','media','contact'][i])} className="block w-full text-left text-base uppercase tracking-wider hover:text-amber-400 transition-colors py-2">{item}</button>
-          ))}
-          <button onClick={() => setLanguage(language === 'en' ? 'de' : 'en')} className="flex items-center gap-2 text-base uppercase tracking-wider hover:text-amber-400 transition-colors py-2">
-            <Globe size={16} />{language === 'en' ? 'Deutsch' : 'English'}
+          {/* Mobile Menu Button */}
+          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden p-2">
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
-      </div>
-    )}
-  </nav>
 
-  {/* Hero */}
-  <section id="home" className="relative h-screen flex items-center justify-center">
-    <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black z-10"></div>
-    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1465847899943-a2abce6abbb0?w=1600')] bg-cover bg-center"></div>
-    <div className="relative z-20 text-center px-4 sm:px-6">
-      <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light mb-3 sm:mb-4 tracking-wide animate-fadeIn">Maximilian Vogler</h1>
-      <p className="text-lg sm:text-xl md:text-2xl text-amber-400 tracking-widest uppercase mb-8 sm:mb-12">{t.hero}</p>
-      <button onClick={() => scrollTo('bio')} className="animate-bounce"><ChevronDown size={32} className="text-amber-400" /></button>
-    </div>
-  </section>
-
-  {/* Bio */}
-  <section id="bio" className="py-16 sm:py-20 lg:py-24 bg-zinc-950">
-    <div className="max-w-6xl mx-auto px-4 sm:px-6">
-      <h2 className="text-3xl sm:text-4xl md:text-5xl font-light mb-8 sm:mb-12 tracking-wide">{t.bioTitle}</h2>
-      <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
-        <div className="space-y-4 sm:space-y-6 text-gray-300 leading-relaxed text-base sm:text-lg">
-          {t.bio.map((p, i) => <p key={i}>{p}</p>)}
-        </div>
-        <div className="relative">
-          <div className="aspect-[3/4] bg-gradient-to-br from-zinc-800 to-zinc-900 rounded-sm overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=800" alt="Maximilian Vogler" className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity duration-300" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  {/* Press */}
-  <section className="py-16 sm:py-20 lg:py-24 bg-black">
-    <div className="max-w-6xl mx-auto px-4 sm:px-6">
-      <h2 className="text-3xl sm:text-4xl md:text-5xl font-light mb-8 sm:mb-12 tracking-wide">{t.pressTitle}</h2>
-      <div className="grid sm:grid-cols-2 gap-6 sm:gap-8">
-        {reviews.map((r, i) => (
-          <div key={i} className="bg-zinc-950 p-6 sm:p-8 rounded-sm border border-zinc-800 hover:border-zinc-700 transition-colors">
-            <Quote className="text-gray-600 mb-4" size={32} />
-            <p className="text-gray-300 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base italic">{r.text}</p>
-            <div className="text-sm text-gray-500">
-              <p className="font-semibold text-gray-400">{r.author}</p>
-              <p>{r.pub}</p>
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-black/98 backdrop-blur-sm border-t border-gray-800">
+            <div className="px-4 py-6 space-y-4">
+              {['Home', 'Bio', 'Repertoire', 'Dates', 'Media', 'Contact'].map(item => (
+                <button
+                  key={item}
+                  onClick={() => scrollToSection(item.toLowerCase())}
+                  className="block w-full text-left text-base uppercase tracking-wider hover:text-amber-400 transition-colors py-2"
+                >
+                  {item}
+                </button>
+              ))}
             </div>
           </div>
-        ))}
-      </div>
-    </div>
-  </section>
+        )}
+      </nav>
 
-  {/* Repertoire */}
-  <section id="repertoire" className="py-16 sm:py-20 lg:py-24 bg-zinc-950">
-    <div className="max-w-6xl mx-auto px-4 sm:px-6">
-      <h2 className="text-3xl sm:text-4xl md:text-5xl font-light mb-8 sm:mb-12 tracking-wide">{t.repTitle}</h2>
-      <div className="bg-black p-8 sm:p-12 rounded-sm border border-zinc-800 hover:border-amber-400/50 transition-all text-center">
-        <a href="https://www.maximilianvogler.com/repertoire" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 text-xl sm:text-2xl hover:text-amber-400 transition-colors">
-          <span>{t.repLink}</span>
-          <ExternalLink size={24} className="text-amber-400" />
-        </a>
-      </div>
-    </div>
-  </section>
+      {/* Hero Section */}
+      <section id="home" className="relative h-screen flex items-center justify-center">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black z-10"></div>
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1465847899943-a2abce6abbb0?w=1600')] bg-cover bg-center"></div>
+        
+        <div className="relative z-20 text-center px-4 sm:px-6">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light mb-3 sm:mb-4 tracking-wide animate-fadeIn">
+            Maximilian Vogler
+          </h1>
+          <p className="text-lg sm:text-xl md:text-2xl text-amber-400 tracking-widest uppercase mb-8 sm:mb-12">Tenor</p>
+          <button onClick={() => scrollToSection('bio')} className="animate-bounce">
+            <ChevronDown size={32} className="text-amber-400" />
+          </button>
+        </div>
+      </section>
 
-  {/* Dates */}
-  <section id="dates" className="py-16 sm:py-20 lg:py-24 bg-black">
-    <div className="max-w-6xl mx-auto px-4 sm:px-6">
-      <h2 className="text-3xl sm:text-4xl md:text-5xl font-light mb-8 sm:mb-12 tracking-wide">{t.datesTitle}</h2>
-      <div className="space-y-6">
-        {upcomingEvents.length > 0 ? upcomingEvents.map((e, i) => (
-          <div key={i} className="bg-zinc-950 rounded-sm border border-zinc-800 overflow-hidden hover:border-zinc-700 transition-all">
-            <div className="bg-zinc-900 px-4 sm:px-6 py-4 border-b border-zinc-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <div className="flex items-center gap-3">
-                <Calendar className="text-amber-400 flex-shrink-0" size={20} />
-                <span className="text-amber-400 font-medium text-sm sm:text-base">{formatDate(e.date)}</span>
-                <span className="text-gray-500">•</span>
-                <span className="text-gray-300 text-sm sm:text-base">{e.time}</span>
-              </div>
-              {e.link && (
-                <a href={e.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-amber-400 text-black text-sm font-medium rounded-sm hover:bg-amber-500 transition-colors self-start">
-                  {t.moreInfo}<ExternalLink size={14} />
-                </a>
-              )}
+      {/* Bio Section */}
+      <section id="bio" className="py-16 sm:py-20 lg:py-24 bg-zinc-950">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-light mb-8 sm:mb-12 tracking-wide">Biography</h2>
+          
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+            <div className="space-y-4 sm:space-y-6 text-gray-300 leading-relaxed text-base sm:text-lg">
+              <p>
+                Maximilian Vogler is an acclaimed German tenor recognized for his exceptional artistry 
+                in both opera and concert repertoire. His performances are characterized by a unique 
+                combination of technical precision and deeply expressive interpretation.
+              </p>
+              <p>
+                Specializing in baroque and classical works, Vogler has established himself as a 
+                sought-after interpreter of J.S. Bach's sacred music, particularly the passions and 
+                cantatas. His "balsamically sensitive tenor" has been praised by critics across Europe.
+              </p>
+              <p>
+                He regularly collaborates with renowned orchestras and ensembles including the Deutsche 
+                Kammerphilharmonie Bremen, B'Rock Orchestra, and Kammerchor Stuttgart, performing at 
+                prestigious venues throughout Europe.
+              </p>
             </div>
-            <div className="p-4 sm:p-6">
-              <h3 className="text-xl sm:text-2xl font-light mb-3">{e.title}</h3>
-              <div className="flex items-start gap-2 text-gray-400 mb-4 text-sm sm:text-base">
-                <MapPin size={16} className="mt-1 flex-shrink-0" />
-                <span>{e.location}</span>
+
+            <div className="relative">
+              <div className="aspect-[3/4] bg-gradient-to-br from-zinc-800 to-zinc-900 rounded-sm overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=800" 
+                  alt="Maximilian Vogler"
+                  className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity duration-300"
+                />
               </div>
-              {e.role && (
-                <div className="mb-4 pb-4 border-b border-zinc-800">
-                  <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">{t.role}</p>
-                  <p className="text-amber-400 font-medium">{e.role}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Reviews Section */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-black">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-light mb-8 sm:mb-12 tracking-wide">Press</h2>
+          
+          <div className="grid sm:grid-cols-2 gap-6 sm:gap-8">
+            {reviews.map((review, index) => (
+              <div key={index} className="bg-zinc-950 p-6 sm:p-8 rounded-sm border border-zinc-800 hover:border-zinc-700 transition-colors">
+                <Quote className="text-gray-600 mb-4" size={32} />
+                <p className="text-gray-300 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base italic">
+                  {review.text}
+                </p>
+                <div className="text-sm text-gray-500">
+                  <p className="font-semibold text-gray-400">{review.author}</p>
+                  <p>{review.publication}</p>
                 </div>
-              )}
-              <div className="space-y-3">
-                {e.cast && (
-                  <div>
-                    <p className="text-xs uppercase tracking-wider text-gray-500 mb-2">{t.cast}</p>
-                    <div className="grid sm:grid-cols-2 gap-1 text-sm text-gray-400">
-                      {e.cast.map((c, j) => <p key={j}>{c}</p>)}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Repertoire Highlights */}
+      <section id="repertoire" className="py-16 sm:py-20 lg:py-24 bg-zinc-950">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-light mb-8 sm:mb-12 tracking-wide">Repertoire</h2>
+          
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {[
+              { composer: 'J.S. Bach', work: 'Matthäus-Passion' },
+              { composer: 'J.S. Bach', work: 'Johannes-Passion' },
+              { composer: 'J.S. Bach', work: 'Cantatas' },
+              { composer: 'G.F. Händel', work: 'Messiah' },
+              { composer: 'W.A. Mozart', work: 'Requiem' },
+              { composer: 'Louis Spohr', work: 'Des Heilands letzte Stunden' }
+            ].map((item, i) => (
+              <div key={i} className="bg-black p-4 sm:p-6 rounded-sm border border-zinc-800 hover:border-zinc-700 transition-colors">
+                <p className="text-gray-400 text-xs sm:text-sm mb-1 sm:mb-2 uppercase tracking-wider">{item.composer}</p>
+                <p className="text-white text-base sm:text-lg">{item.work}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Dates Section */}
+      <section id="dates" className="py-16 sm:py-20 lg:py-24 bg-black">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-light mb-8 sm:mb-12 tracking-wide">Upcoming Performances</h2>
+          
+          <div className="space-y-6">
+            {upcomingEvents.length > 0 ? (
+              upcomingEvents.map((event, index) => (
+                <div key={index} className="bg-zinc-950 rounded-sm p-4 sm:p-6 lg:p-8 border border-zinc-800 hover:border-zinc-700 transition-all duration-300">
+                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 lg:gap-6">
+                    <div className="flex-1">
+                      <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-3 sm:mb-4 text-sm sm:text-base">
+                        <Calendar className="text-amber-400" size={18} />
+                        <span className="text-gray-300 font-light">{formatDate(event.date)}, {event.time}</span>
+                      </div>
+                      
+                      <h3 className="text-xl sm:text-2xl lg:text-3xl font-light mb-2 sm:mb-3 leading-tight">{event.title}</h3>
+                      
+                      <div className="flex items-start gap-2 text-gray-400 mb-3 sm:mb-4 text-sm sm:text-base">
+                        <MapPin size={16} className="mt-1 flex-shrink-0" />
+                        <span>{event.location}</span>
+                      </div>
+                      
+                      {event.details && (
+                        <p className="text-xs sm:text-sm text-gray-500 leading-relaxed">
+                          {event.details}
+                        </p>
+                      )}
                     </div>
+                    
+                    {event.ticketLink && (
+                      <a 
+                        href={event.ticketLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-4 sm:px-6 py-2 sm:py-3 bg-amber-400 text-black text-sm sm:text-base font-light rounded-sm hover:bg-amber-500 transition-colors text-center whitespace-nowrap self-start"
+                      >
+                        More Info
+                      </a>
+                    )}
                   </div>
-                )}
-                {e.ensemble && (
-                  <div className="text-sm text-gray-500 space-y-1">
-                    {e.ensemble.map((en, j) => <p key={j}>{en}</p>)}
-                  </div>
-                )}
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-12 text-gray-400">
+                <p>No upcoming events scheduled. Check back soon!</p>
+              </div>
+            )}
+          </div>
+
+          {/* Instructions for updating events */}
+          <div className="mt-8 sm:mt-12 p-4 sm:p-6 bg-zinc-900/50 border border-zinc-800 rounded-sm">
+            <h3 className="text-lg sm:text-xl font-light mb-3 text-amber-400">📅 How to Update Events</h3>
+            <p className="text-sm sm:text-base text-gray-400 mb-2">
+              Edit the <code className="bg-black px-2 py-1 rounded text-gray-300">events</code> array at line 10:
+            </p>
+            <ul className="text-xs sm:text-sm text-gray-500 space-y-1 ml-4">
+              <li>• date: 'YYYY-MM-DD' format</li>
+              <li>• title, location, time, role, details</li>
+              <li>• ticketLink (optional)</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Media Section */}
+      <section id="media" className="py-16 sm:py-20 lg:py-24 bg-zinc-950">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-light mb-8 sm:mb-12 tracking-wide">Recordings</h2>
+          
+          {/* Featured Recording */}
+          <div className="bg-black rounded-sm p-6 sm:p-8 lg:p-10 border border-zinc-800 mb-8 sm:mb-12">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
+              <Music className="text-amber-400 flex-shrink-0" size={40} />
+              <div>
+                <h3 className="text-xl sm:text-2xl font-light mb-1 sm:mb-2">New Recording</h3>
+                <p className="text-gray-400 text-sm sm:text-base">Louis Spohr - Des Heilands letzte Stunden</p>
               </div>
             </div>
+            
+            <div className="space-y-2 text-xs sm:text-sm text-gray-500 mb-6">
+              <p>FLORIAN SIEVERS Johannes, JOHANNA WINKEL Maria, MAXIMILIAN VOGLER Jesus</p>
+              <p>THOMAS E. BAUR Judas, ARTTU KATAJA Petrus, MAGNUS PIONTEK Philo, FELIX RATHGEBER Kaiphas</p>
+              <p>KAMMERCHOR STUTTGART, DEUTSCHE KAMMERPHILHARMONIE BREMEN</p>
+              <p>FRIEDER BERNIUS Conductor</p>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              <a 
+                href="https://open.spotify.com/artist/04a6YApIKtz0iwOtMupVut?si=8hk31-PDRdmfl06-Rwabzg" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-4 sm:px-6 py-2 bg-zinc-900 rounded-sm hover:bg-zinc-800 transition-colors flex items-center gap-2 text-sm sm:text-base"
+              >
+                <Music size={16} />
+                Spotify
+              </a>
+              <a 
+                href="https://www.youtube.com/channel/UC7X2hA76MRpJMVes-HFpvzA" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-4 sm:px-6 py-2 bg-zinc-900 rounded-sm hover:bg-zinc-800 transition-colors flex items-center gap-2 text-sm sm:text-base"
+              >
+                <Youtube size={16} />
+                YouTube
+              </a>
+            </div>
           </div>
-        )) : <div className="text-center py-12 text-gray-400"><p>{t.noEvents}</p></div>}
-      </div>
+
+          {/* Photo Gallery */}
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="aspect-square bg-zinc-900 rounded-sm overflow-hidden group">
+                <img 
+                  src={`https://images.unsplash.com/photo-${i % 2 === 0 ? '1465847899943' : '1511379938547'}-aa49c3c87a5e?w=600`}
+                  alt={`Performance ${i}`}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-16 sm:py-20 lg:py-24 bg-black">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-light mb-8 sm:mb-12 tracking-wide">Contact</h2>
+          
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+            <div>
+              <h3 className="text-xl sm:text-2xl font-light mb-4 sm:mb-6">Get in Touch</h3>
+              <p className="text-gray-400 mb-6 sm:mb-8 text-sm sm:text-base leading-relaxed">
+                For booking inquiries, collaboration opportunities, or general questions, 
+                please reach out via email.
+              </p>
+              
+              <div className="space-y-4 mb-6 sm:mb-8">
+                <a 
+                  href="mailto:maximilian.vogler@gmail.com" 
+                  className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors text-sm sm:text-base"
+                >
+                  <Mail size={20} />
+                  <span>maximilian.vogler@gmail.com</span>
+                </a>
+              </div>
+
+              <div className="flex gap-3 sm:gap-4">
+                <a 
+                  href="https://open.spotify.com/artist/04a6YApIKtz0iwOtMupVut?si=8hk31-PDRdmfl06-Rwabzg" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="p-3 bg-zinc-950 rounded-sm hover:bg-zinc-800 transition-all"
+                >
+                  <Music size={20} />
+                </a>
+                <a 
+                  href="https://www.youtube.com/channel/UC7X2hA76MRpJMVes-HFpvzA" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="p-3 bg-zinc-950 rounded-sm hover:bg-zinc-800 transition-all"
+                >
+                  <Youtube size={20} />
+                </a>
+                <a 
+                  href="https://www.instagram.com/maximilian_vogler/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="p-3 bg-zinc-950 rounded-sm hover:bg-zinc-800 transition-all"
+                >
+                  <Instagram size={20} />
+                </a>
+              </div>
+            </div>
+
+            <div className="space-y-3 sm:space-y-4">
+              <input 
+                type="text" 
+                placeholder="Name"
+                value={contactForm.name}
+                onChange={(e) => setContactForm({...contactForm, name: e.target.value})}
+                className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-sm focus:outline-none focus:border-zinc-600 transition-colors text-sm sm:text-base"
+              />
+              <input 
+                type="email" 
+                placeholder="Email"
+                value={contactForm.email}
+                onChange={(e) => setContactForm({...contactForm, email: e.target.value})}
+                className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-sm focus:outline-none focus:border-zinc-600 transition-colors text-sm sm:text-base"
+              />
+              <textarea 
+                placeholder="Message"
+                rows={6}
+                value={contactForm.message}
+                onChange={(e) => setContactForm({...contactForm, message: e.target.value})}
+                className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-sm focus:outline-none focus:border-zinc-600 transition-colors resize-none text-sm sm:text-base"
+              />
+              <button 
+                onClick={handleSubmit}
+                className="w-full px-6 py-3 bg-amber-400 text-black font-light rounded-sm hover:bg-amber-500 transition-colors text-sm sm:text-base"
+              >
+                Send Message
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-6 sm:py-8 bg-zinc-950 border-t border-zinc-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center text-gray-500 text-xs sm:text-sm">
+          <p>&copy; 2026 Maximilian Vogler. All rights reserved.</p>
+        </div>
+      </footer>
+
+      <style jsx>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 1.2s ease-out;
+        }
+      `}</style>
     </div>
-  </section>
-
-  {/* Media */}
-  <section id="media" className="py-16 sm:py-20 lg:py-24 bg-zinc-950">
-    <div className="max-w-6xl mx-auto px-4 sm:px-6">
-      <h2 className="text-3xl sm:text-4xl md:text-5xl font-light mb-8 sm:mb-12 tracking-wide">{t.mediaTitle}</h2>
-      <div className="bg-black rounded-sm p-6 sm:p-8 lg:p-10 border border-zinc-800 mb-8 sm:mb-12">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
-          <Music className="text-amber-400 flex-shrink-0" size={40} />
-          <div>
-            <h3 className="text-xl sm:text-2xl font-light mb-1 sm:mb-2">{t.newRec}</h3>
-            <p className="text-gray-400 text-sm sm:text-base">Louis Spohr - Des Heilands letzte Stunden</p>
-          </div>
-        </div>
-        <div className="space-y-2 text-xs sm:text-sm text-gray-500 mb-6">
-          <p>FLORIAN SIEVERS Johannes, JOHANNA WINKEL Maria, MAXIMILIAN VOGLER Jesus</p>
-          <p>THOMAS E. BAUR Judas, ARTTU KATAJA Petrus, MAGNUS PIONTEK Philo, FELIX RATHGEBER Kaiphas</p>
-          <p>KAMMERCHOR STUTTGART, DEUTSCHE KAMMERPHILHARMONIE BREMEN</p>
-          <p>FRIEDER BERNIUS Conductor</p>
-        </div>
-        <div className="flex flex-wrap gap-3">
-          <a href="https://open.spotify.com/artist/04a6YApIKtz0iwOtMupVut" target="_blank" rel="noopener noreferrer" className="px-4 sm:px-6 py-2 bg-zinc-900 rounded-sm hover:bg-zinc-800 transition-colors flex items-center gap-2 text-sm sm:text-base">
-            <Music size={16} />Spotify
-          </a>
-          <a href="https://www.youtube.com/channel/UC7X2hA76MRpJMVes-HFpvzA" target="_blank" rel="noopener noreferrer" className="px-4 sm:px-6 py-2 bg-zinc-900 rounded-sm hover:bg-zinc-800 transition-colors flex items-center gap-2 text-sm sm:text-base">
-            <Youtube size={16} />YouTube
-          </a>
-        </div>
-      </div>
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-        {[1,2,3,4,5,6].map(i => (
-          <div key={i} className="aspect-square bg-zinc-900 rounded-sm overflow-hidden group">
-            <img src={`https://images.unsplash.com/photo-${i%2===0?'1465847899943':'1511379938547'}-aa49c3c87a5e?w=600`} alt={`Performance ${i}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  {/* Contact */}
-  <section id="contact" className="py-16 sm:py-20 lg:py-24 bg-black">
-    <div className="max-w-4xl mx-auto px-4 sm:px-6">
-      <h2 className="text-3xl sm:text-4xl md:text-5xl font-light mb-8 sm:mb-12 tracking-wide">{t.contactTitle}</h2>
-      <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-        <div>
-          <h3 className="text-xl sm:text-2xl font-light mb-4 sm:mb-6">{t.contactSub}</h3>
-          <p className="text-gray-400 mb-6 sm:mb-8 text-sm sm:text-base leading-relaxed">{t.contactText}</p>
-          <div className="space-y-4 mb-6 sm:mb-8">
-            <a href="mailto:maximilian.vogler@gmail.com" className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors text-sm sm:text-base">
-              <Mail size={20} />maximilian.vogler@gmail.com
-            </a>
-          </div>
-          <div className="flex gap-3 sm:gap-4">
-            <a href="https://open.spotify.com/artist/04a6YApIKtz0iwOtMupVut" target="_blank" rel="noopener noreferrer" className="p-3 bg-zinc-950 rounded-sm hover:bg-zinc-800 transition-all"><Music size={20} /></a>
-            <a href="https://www.youtube.com/channel/UC7X2hA76MRpJMVes-HFpvzA" target="_blank" rel="noopener noreferrer" className="p-3 bg-zinc-950 rounded-sm hover:bg-zinc-800 transition-all"><Youtube size={20} /></a>
-            <a href="https://www.instagram.com/maximilian_vogler/" target="_blank" rel="noopener noreferrer" className="p-3 bg-zinc-950 rounded-sm hover:bg-zinc-800 transition-all"><Instagram size={20} /></a>
-          </div>
-        </div>
-        <div className="space-y-3 sm:space-y-4">
-          <input type="text" placeholder={t.namePh} value={contactForm.name} onChange={e => setContactForm({...contactForm, name: e.target.value})} className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-sm focus:outline-none focus:border-zinc-600 transition-colors text-sm sm:text-base" />
-          <input type="email" placeholder={t.emailPh} value={contactForm.email} onChange={e => setContactForm({...contactForm, email: e.target.value})} className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-sm focus:outline-none focus:border-zinc-600 transition-colors text-sm sm:text-base" />
-          <textarea placeholder={t.msgPh} rows={6} value={contactForm.message} onChange={e => setContactForm({...contactForm, message: e.target.value})} className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-sm focus:outline-none focus:border-zinc-600 transition-colors resize-none text-sm sm:text-base" />
-          <button onClick={() => {window.location.href=`mailto:maximilian.vogler@gmail.com?subject=Contact from ${contactForm.name}&body=${contactForm.message}`;setContactForm({name:'',email:'',message:''})}} className="w-full px-6 py-3 bg-amber-400 text-black font-light rounded-sm hover:bg-amber-500 transition-colors text-sm sm:text-base">{t.sendBtn}</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  {/* Footer */}
-  <footer className="py-6 sm:py-8 bg-zinc-950 border-t border-zinc-900">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center text-gray-500 text-xs sm:text-sm">
-      <p>&copy; 2026 Maximilian Vogler. {t.rights}</p>
-    </div>
-  </footer>
-
-  <style jsx>{`
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fadeIn { animation: fadeIn 1.2s ease-out; }
-  `}</style>
-</div>
-```
-
-);
+  );
 };
 
 export default MaximilianVoglerWebsite;
